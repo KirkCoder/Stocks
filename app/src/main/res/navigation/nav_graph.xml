@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/ratesFragment">
+
+    <fragment
+        android:id="@+id/ratesFragment"
+        android:name="ru.kcoder.stocks.presentation.rates.RatesFragment"
+        android:label="@string/rates_fragment"
+        tools:layout="@layout/fragment_rates">
+
+        <action
+            android:id="@+id/action_RatesFragment_to_AllStocksFragment"
+            app:destination="@id/allStocksFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/allStocksFragment"
+        android:name="ru.kcoder.stocks.presentation.stock.StockFragment"
+        android:label="@string/all_stocks_fragment"
+        tools:layout="@layout/fragment_stock" />
+</navigation>

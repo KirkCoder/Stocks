@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Stocks</string>
+    <string name="sorry_something_went_wrong">Sorry, something went wrong</string>
+    <string name="retry">Try again</string>
+    <string name="close">Close</string>
+    <string name="select_stock">Select stock</string>
+    <string name="selected_stock">Selected stock: %s</string>
+    <string name="enter_the_amount">Enter the amount</string>
+    <string name="rates_fragment">Rates fragment</string>
+    <string name="all_stocks_fragment">All stocks fragment</string>
 </resources>
