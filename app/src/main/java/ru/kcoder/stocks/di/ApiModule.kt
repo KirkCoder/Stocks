@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -53,6 +54,14 @@ class ApiModule {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
+    }
+
+    @Provides
+    fun streamRequest(
+        apiUrlProvider: ApiUrlProvider,
+        apiUrlConfig: ApiUrlConfig
+    ): Request {
+        return Request.Builder().url(apiUrlProvider.getStreamUrlForConfig(apiUrlConfig)).build()
     }
 
     companion object {
