@@ -38,6 +38,6 @@
         android:layout_marginBottom="@dimen/medium_margin"
         app:layout_constraintStart_toStartOf="@id/guideline"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Currency description" />
+        tools:text="Stock description" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

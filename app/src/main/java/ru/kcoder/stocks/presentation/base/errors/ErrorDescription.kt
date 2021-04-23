@@ -1,8 +1,9 @@
 package ru.kcoder.stocks.presentation.base.errors
 
 import ru.kcoder.stocks.R
-import ru.kcoder.stocks.data.network.ServerError
+import ru.kcoder.stocks.data.network.StocksError
 import ru.kcoder.stocks.presentation.base.ResourceDataStore
+import timber.log.Timber
 import javax.inject.Inject
 
 class ErrorDescription(
@@ -19,12 +20,22 @@ class ErrorDescription(
         }
 
         private fun getErrorMessage(error: Throwable): String {
-            val errorMessage = error.message
-            return if (error is ServerError && errorMessage != null) {
-                errorMessage
+            return if (error is StocksError) {
+                when (error) {
+                    is StocksError.Server -> {
+                        error.message ?: getCommonErrorDescription()
+                    }
+                    is StocksError.StreamConnection -> {
+                        error.outError?.let(Timber::e)
+                        resourceDataStore.getString(R.string.connection_lost)
+                    }
+                }
             } else {
-                resourceDataStore.getString(R.string.sorry_something_went_wrong)
+                getCommonErrorDescription()
             }
         }
+
+        private fun getCommonErrorDescription() =
+            resourceDataStore.getString(R.string.sorry_something_went_wrong)
     }
 }

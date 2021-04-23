@@ -8,15 +8,15 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class ViewModelFactory @Inject constructor(
-    private val selectCurrencyViewModelProvider: Provider<RatesViewModel>,
-    private val currencyExchangeViewModelProvider: Provider<StockViewModel>,
+    private val ratesViewModelProvider: Provider<RatesViewModel>,
+    private val stockViewModelProvider: Provider<StockViewModel>,
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when {
-            modelClass.isAssignableFrom(RatesViewModel::class.java) -> selectCurrencyViewModelProvider.get() as T
-            modelClass.isAssignableFrom(StockViewModel::class.java) -> currencyExchangeViewModelProvider.get() as T
+            modelClass.isAssignableFrom(RatesViewModel::class.java) -> ratesViewModelProvider.get() as T
+            modelClass.isAssignableFrom(StockViewModel::class.java) -> stockViewModelProvider.get() as T
             else -> throw Throwable("View model of class $modelClass is not supported by factory")
         }
     }

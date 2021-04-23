@@ -2,7 +2,6 @@ package ru.kcoder.stocks.data.repository
 
 import io.reactivex.Observable
 import io.reactivex.Single
-import ru.kcoder.stocks.data.dto.StockRateStreamDto
 import ru.kcoder.stocks.data.dto.StockRateStreamType
 import ru.kcoder.stocks.data.storage.StockRateDataStore
 import ru.kcoder.stocks.domain.rate.StockRate

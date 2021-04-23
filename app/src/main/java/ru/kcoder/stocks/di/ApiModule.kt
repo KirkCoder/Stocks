@@ -22,7 +22,7 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun currencyApi(retrofit: Retrofit): StocksApi {
+    fun stocksApi(retrofit: Retrofit): StocksApi {
         return retrofit.create(StocksApi::class.java)
     }
 

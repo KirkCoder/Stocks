@@ -7,6 +7,7 @@ import okhttp3.*
 import ru.kcoder.stocks.data.dto.StockRateDto
 import ru.kcoder.stocks.data.dto.StockRateStreamDto
 import ru.kcoder.stocks.data.network.StocksApi
+import ru.kcoder.stocks.data.network.StocksError
 import javax.inject.Inject
 
 class StockRateDataStore @Inject constructor(
@@ -37,6 +38,16 @@ class StockRateDataStore @Inject constructor(
             override fun onMessage(webSocket: WebSocket, text: String) {
                 super.onMessage(webSocket, text)
                 subject.onNext(stockRateStreamDtoMapper.map(text))
+            }
+
+            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+                super.onFailure(webSocket, t, response)
+                subject.onError(StocksError.StreamConnection(t))
+            }
+
+            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
+                super.onClosed(webSocket, code, reason)
+                subject.onError(StocksError.StreamConnection(null))
             }
         })
         return subject

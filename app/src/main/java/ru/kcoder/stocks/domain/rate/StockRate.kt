@@ -2,7 +2,7 @@ package ru.kcoder.stocks.domain.rate
 
 import ru.kcoder.stocks.data.dto.PriceDto
 import ru.kcoder.stocks.data.dto.StockRateDto
-import ru.kcoder.stocks.data.network.ServerError
+import ru.kcoder.stocks.data.network.StocksError
 import timber.log.Timber
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -20,7 +20,7 @@ data class StockRate(
         fun map(dto: StockRateDto, id: String): StockRate {
             if (dto.errorCode != null) {
                 Timber.d("ServerError code: ${dto.errorCode}, developerMessage: ${dto.developerMessage}, message: ${dto.message}")
-                throw ServerError(dto.message)
+                throw StocksError.Server(dto.message)
             }
 
             val currentPriceDto = getCurrentPrice(dto, id)

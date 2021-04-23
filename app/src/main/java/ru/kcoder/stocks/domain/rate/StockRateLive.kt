@@ -2,7 +2,7 @@ package ru.kcoder.stocks.domain.rate
 
 import ru.kcoder.stocks.data.dto.StockRateStreamBodyDto
 import ru.kcoder.stocks.data.dto.StockRateStreamDto
-import ru.kcoder.stocks.data.network.ServerError
+import ru.kcoder.stocks.data.network.StocksError
 import timber.log.Timber
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -17,7 +17,7 @@ data class StockRateLive(
         fun map(dto: StockRateStreamDto): StockRateLive {
             if (dto.body?.errorCode != null) {
                 Timber.d("ServerError code: ${dto.body.errorCode}, developerMessage: ${dto.body.developerMessage}")
-                throw ServerError(null)
+                throw StocksError.Server(null)
             }
             return StockRateLive(
                 id = getId(dto),
