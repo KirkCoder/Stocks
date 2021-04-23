@@ -1,6 +1,7 @@
 package ru.kcoder.stocks.data.storage
 
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import ru.kcoder.stocks.data.persistent.AppDatabase
 import ru.kcoder.stocks.data.persistent.StockEntity
@@ -18,5 +19,9 @@ class SelectedStockDataStore @Inject constructor(
 
     fun observeSelectedStock(): Observable<StockEntity> {
         return appDatabase.selectedStockDao().observeSelectedStock()
+    }
+
+    fun getSelectedStock(): Maybe<StockEntity> {
+        return appDatabase.selectedStockDao().getSelectedStock()
     }
 }

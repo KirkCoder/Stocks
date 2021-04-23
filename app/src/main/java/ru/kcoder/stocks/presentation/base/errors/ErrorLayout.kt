@@ -1,4 +1,4 @@
-package ru.kcoder.stocks.presentation.base
+package ru.kcoder.stocks.presentation.base.errors
 
 import android.content.Context
 import android.util.AttributeSet
@@ -17,6 +17,7 @@ class ErrorLayout @JvmOverloads constructor(
         View.inflate(context, R.layout.error_layout, this)
         orientation = VERTICAL
         gravity = Gravity.CENTER
+        setOnClickListener {}
     }
 
 }

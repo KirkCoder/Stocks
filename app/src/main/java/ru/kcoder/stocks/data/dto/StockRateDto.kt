@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName
 data class StockRateDto(
     @SerializedName("symbol") val symbol: String?,
     @SerializedName("securityId") val securityId: String?,
+    @SerializedName("message") val message: String?,
+    @SerializedName("developerMessage") val developerMessage: String?,
+    @SerializedName("errorCode") val errorCode: String?,
     @SerializedName("displayName") val displayName: String?,
     @SerializedName("currentPrice") val currentPrice: PriceDto?,
     @SerializedName("closingPrice") val closingPrice: PriceDto?,

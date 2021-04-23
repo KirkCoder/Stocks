@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.error_layout.*
 import kotlinx.android.synthetic.main.fragment_rates.*
@@ -44,51 +43,45 @@ class RatesFragment : BaseFragment() {
 
     private fun initListeners() {
         selectedStockButton.setOnClickListener {
-            amountInputEditText.hideKeyboard()
             findNavController().navigate(R.id.action_RatesFragment_to_AllStocksFragment)
-        }
-
-        amountInputEditText.addTextChangedListener(onTextChanged = { text, _, _, _ ->
-            text?.let {
-                viewModel.calculateChanges(text.toString())
-            }
-        })
-
-        retryButton.setOnClickListener {
-            calculateExistingExchange()
-        }
-
-        closeButton.setOnClickListener {
-            viewModel.close()
         }
     }
 
     private fun subscribeUi() {
-        observe(viewModel.selectedStockLiveData, ::setSelectedStock)
-        observe(viewModel.stockExchangeLiveData, ::handleStockExchange)
-        observe(viewModel.stockRateLiveData, ::handleStockRate)
+        observe(viewModel.stockLiveData, ::handleStock)
         observe(viewModel.closeLiveData, ::close)
     }
 
-    private fun setSelectedStock(currency: SelectedStockPresentation) {
-        selectedStockButton.text = currency.name
+    private fun handleStock(stock: StockPresentation) {
+        setProgress(stock)
+        setError(stock)
+        setSelectedStock(stock.selectedStock)
+        setStockRate(stock.stockRate)
     }
 
-    private fun calculateExistingExchange() {
-        viewModel.calculateChanges(amountInputEditText.text?.toString() ?: "")
+    private fun setProgress(stock: StockPresentation) {
+        progressBar.isVisible = stock.showProgress
     }
 
-    private fun handleStockExchange(
-        stockExchangePresentation: StockExchangePresentation
-    ) {
-        progressBar.isVisible = stockExchangePresentation.showProgress
-        errorLayout.isVisible = stockExchangePresentation.showError
+    private fun setError(stock: StockPresentation) {
+        errorLayout.isVisible = stock.errorState != null
+        errorDescriptionTextView.text = stock.errorState?.error?.description
+        retryButton.setOnClickListener {
+            stock.errorState?.retryAction?.invoke()
+        }
+        closeButton.setOnClickListener {
+            stock.errorState?.cancelAction?.invoke()
+        }
     }
 
-    private fun handleStockRate(stock: StockRatePresentation) {
-        currentPriceTextView.text = stock.currentPrice
-        closePriceTextView.text = stock.closePrice
-        differenceTextView.text = stock.difference
+    private fun setSelectedStock(stock: SelectedStockPresentation?) {
+        selectedStockButton.text = stock?.name
+    }
+
+    private fun setStockRate(stock: StockRatePresentation?) {
+        currentPriceTextView.text = stock?.currentPrice
+        closePriceTextView.text = stock?.closePrice
+        differenceTextView.text = stock?.difference
     }
 
     private fun close(any: Any) {

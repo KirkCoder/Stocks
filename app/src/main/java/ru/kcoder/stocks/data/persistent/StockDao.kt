@@ -1,6 +1,7 @@
 package ru.kcoder.stocks.data.persistent
 
 import androidx.room.*
+import io.reactivex.Maybe
 import io.reactivex.Observable
 
 @Dao
@@ -20,4 +21,7 @@ abstract class StockDao {
 
     @Query("SELECT * FROM selected_stock LIMIT 1")
     abstract fun observeSelectedStock() : Observable<StockEntity>
+
+    @Query("SELECT * FROM selected_stock LIMIT 1")
+    abstract fun getSelectedStock() : Maybe<StockEntity>
 }

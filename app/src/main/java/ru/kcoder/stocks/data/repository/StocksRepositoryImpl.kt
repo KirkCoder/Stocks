@@ -1,6 +1,7 @@
 package ru.kcoder.stocks.data.repository
 
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import ru.kcoder.stocks.data.persistent.StockEntity
@@ -31,6 +32,11 @@ class StocksRepositoryImpl @Inject constructor(
 
     override fun observeSelectedStock(): Observable<Stock> {
         return selectedStockDataStore.observeSelectedStock()
+            .map(stockMapper::map)
+    }
+
+    override fun getSelectedStock(): Maybe<Stock> {
+        return selectedStockDataStore.getSelectedStock()
             .map(stockMapper::map)
     }
 }

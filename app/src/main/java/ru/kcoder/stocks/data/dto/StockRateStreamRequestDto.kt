@@ -9,11 +9,17 @@ data class StockRateStreamRequestDto(
 ) {
 
     class Mapper @Inject constructor() {
-        fun map(id: String) {
-            StockRateStreamRequestDto(
-                subscribeTo = listOf("trading.product.${id}"),
-                unsubscribeFrom = emptyList()
+        fun map(id: String, previousStockId: String?): StockRateStreamRequestDto {
+            val unsubscribeList =
+                previousStockId?.let { listOf("$SUBSCRIPTION_PARAM_NAME${it}") } ?: emptyList()
+            return StockRateStreamRequestDto(
+                subscribeTo = listOf("$SUBSCRIPTION_PARAM_NAME${id}"),
+                unsubscribeFrom = unsubscribeList
             )
         }
+    }
+
+    companion object {
+        private const val SUBSCRIPTION_PARAM_NAME = "trading.product."
     }
 }
