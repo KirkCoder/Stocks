@@ -7,6 +7,7 @@ import ru.kcoder.stocks.data.storage.StockRateDataStore
 import ru.kcoder.stocks.domain.rate.StockRate
 import ru.kcoder.stocks.domain.rate.StockRateLive
 import ru.kcoder.stocks.domain.rate.StockRateRepository
+import timber.log.Timber
 import javax.inject.Inject
 
 class StockRateRepositoryImpl @Inject constructor(
@@ -27,8 +28,10 @@ class StockRateRepositoryImpl @Inject constructor(
         selectedStockId: String,
         previousStockId: String?
     ): Observable<StockRateLive> {
+        Timber.d("@@@@@12334444")
         return stockRateDataStore.getStockRateStream(selectedStockId, previousStockId)
             .filter { dto ->
+                Timber.d("@@@@@12334444")
                 dto.type == StockRateStreamType.TRADING_QUOTE.description
                         && dto.body?.securityId == selectedStockId
             }
